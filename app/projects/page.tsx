@@ -1,182 +1,731 @@
-"use client"
+import Link from "next/link"
+import { ArrowRight, ExternalLink, Briefcase, FolderGit2, MapPin, Github, CheckCircle2, GraduationCap } from "lucide-react"
+import { Navbar }  from "@/components/navbar"
+import { Footer }  from "@/components/footer"
+import { Reveal }  from "@/components/reveal"
+import { projects } from "@/lib/data/projects"
+import { experience } from "@/lib/data/experience"
 
-import { useState } from "react"
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { SectionHeader } from "@/components/section-header"
-import { ProjectCard } from "@/components/project-card"
-import { Button } from "@/components/ui/button"
-
-type ProjectCategory = "all" | "ai" | "fullstack" | "backend"
-
-interface Project {
-  id: string
-  title: string
-  description: string
-  problem: string
-  solution: string
-  outcome: string
-  technologies: string[]
-  category: "ai" | "fullstack" | "backend"
-  featured?: boolean
-  links?: {
-    github?: string
-    live?: string
-  }
+export const metadata = {
+  title: "Work & Experience — Yuvraj Singh Rathore",
+  description: "Industry internships, commercial experience, production systems, and academic background of Yuvraj Singh Rathore.",
 }
 
-const projects: Project[] = [
-  {
-    id: 1,
-    title: "AI Content Platform",
-    description: "A sophisticated platform for generating, managing, and publishing AI-assisted content at scale.",
-    problem: "Creating quality content at scale is time-consuming and resource-intensive for most organizations.",
-    solution:
-      "Built a RAG-powered system that ingests brand guidelines and generates contextually relevant content. Integrated with popular publishing platforms for seamless workflow.",
-    outcome:
-      "Reduced content creation time by 70% while maintaining quality. Powered by Claude AI and vector databases for semantic search.",
-    technologies: ["Python", "FastAPI", "LangChain", "PostgreSQL", "React"],
-    category: "ai",
-    featured: true,
-    links: {
-      github: "https://github.com",
-      live: "https://example.com",
-    },
-  },
-  {
-    id: 2,
-    title: "Real-time Analytics Dashboard",
-    description:
-      "Enterprise-grade dashboard for monitoring and analyzing system metrics across distributed infrastructure.",
-    problem: "Teams lacked real-time visibility into system performance metrics and needed complex custom dashboards.",
-    solution:
-      "Created a modular dashboard system with WebSocket support for live data updates. Built custom visualization components for different data types.",
-    outcome: "Enabled teams to respond to issues 5x faster. Processed 1M+ events per second with <100ms latency.",
-    technologies: ["Next.js", "TypeScript", "WebSocket", "PostgreSQL", "TailwindCSS"],
-    category: "fullstack",
-    featured: true,
-    links: {
-      github: "https://github.com",
-      live: "https://example.com",
-    },
-  },
-  {
-    id: 3,
-    title: "LLM Fine-tuning Pipeline",
-    description: "Automated pipeline for fine-tuning large language models on domain-specific data.",
-    problem: "Generic LLMs perform poorly on specialized domains without extensive prompt engineering.",
-    solution:
-      "Created an end-to-end pipeline using LoRA for efficient fine-tuning, with automatic data preprocessing and quality validation.",
-    outcome:
-      "Achieved 40% improvement in domain-specific accuracy. Reduced fine-tuning costs by 60% compared to traditional approaches.",
-    technologies: ["Python", "PyTorch", "Hugging Face", "AWS", "FastAPI"],
-    category: "ai",
-    links: {
-      github: "https://github.com",
-    },
-  },
-  {
-    id: 4,
-    title: "Distributed Task Queue",
-    description: "High-performance task queue system for managing async jobs across multiple workers.",
-    problem: "Existing solutions couldn't handle variable load with strict latency requirements.",
-    solution: "Built a custom task queue using Redis and Python with intelligent load balancing and priority queues.",
-    outcome: "Processed 100k+ tasks daily with <5ms p99 latency. Reduced infrastructure costs by 40%.",
-    technologies: ["Python", "Redis", "Celery", "Docker", "PostgreSQL"],
-    category: "backend",
-    links: {
-      github: "https://github.com",
-    },
-  },
-  {
-    id: 5,
-    title: "E-commerce Platform Rebuild",
-    description: "Complete redesign and rebuild of legacy e-commerce platform for 10x growth.",
-    problem:
-      "Monolithic architecture couldn't scale. Checkout failures during peak traffic caused significant revenue loss.",
-    solution:
-      "Migrated to microservices architecture using Next.js frontend and Node.js/Python backends with proper caching strategies.",
-    outcome: "99.99% uptime, 10x faster checkout process. Handled 500k concurrent users during peak sales.",
-    technologies: ["Next.js", "Node.js", "React", "PostgreSQL", "Redis", "Docker"],
-    category: "fullstack",
-    links: {
-      github: "https://github.com",
-      live: "https://example.com",
-    },
-  },
-  {
-    id: 6,
-    title: "ML-Powered Recommendation Engine",
-    description: "Personalized recommendation system using collaborative filtering and neural networks.",
-    problem: "Generic recommendations had low CTR. Users needed truly personalized experiences.",
-    solution:
-      "Implemented hybrid approach combining collaborative filtering with deep learning for cold-start problems.",
-    outcome: "Increased CTR by 35%. Reduced computation time from hours to milliseconds using model optimization.",
-    technologies: ["Python", "TensorFlow", "Scikit-learn", "PostgreSQL", "FastAPI"],
-    category: "ai",
-    links: {
-      github: "https://github.com",
-    },
-  },
-]
-
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>("all")
-
-  const filteredProjects = projects.filter(
-    (project) => selectedCategory === "all" || project.category === selectedCategory,
-  )
+  const internships = experience.filter((e) => e.type === "work")
+  const education = experience.filter((e) => e.type === "education")
 
   return (
-    <main className="min-h-screen bg-background">
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Navbar />
+      <main style={{ flex: 1, paddingTop: "5.5rem" }}>
 
-      {/* Header Section */}
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 max-w-6xl mx-auto border-b border-border/40">
-        <SectionHeader
-          subtitle="Portfolio"
-          title="My Projects"
-          description="A collection of projects showcasing my expertise in full-stack development, AI integration, and backend engineering. Each project represents real-world problems solved with modern technologies."
-        />
-      </section>
+        {/* ── HEADER ─────────────────────────────────────────────────── */}
+        <section style={{ paddingBlock: "clamp(3rem, 7vw, 5.5rem)" }}>
+          <div className="container-editorial">
+            <Reveal>
+              <p className="text-label-olive" style={{ marginBottom: "0.75rem" }}>
+                Complete Career & Project Catalog
+              </p>
+            </Reveal>
+            <Reveal delay={1}>
+              <h1 className="text-section-heading" style={{ maxWidth: "26ch" }}>
+                Work & Experience
+              </h1>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="prose-editorial" style={{ marginTop: "1rem", maxWidth: "62ch" }}>
+                A unified catalog of verified industry internships, production software systems, MERN full-stack applications, and academic foundations.
+              </p>
+            </Reveal>
 
-      {/* Filter Section */}
-      <section className="py-12 px-6 max-w-6xl mx-auto border-b border-border/40">
-        <div className="flex flex-wrap gap-3">
-          {[
-            { value: "all" as ProjectCategory, label: "All Projects" },
-            { value: "ai" as ProjectCategory, label: "AI & ML" },
-            { value: "fullstack" as ProjectCategory, label: "Full-Stack" },
-            { value: "backend" as ProjectCategory, label: "Backend" },
-          ].map((filter) => (
-            <Button
-              key={filter.value}
-              onClick={() => setSelectedCategory(filter.value)}
-              variant={selectedCategory === filter.value ? "default" : "outline"}
-              className={selectedCategory === filter.value ? "bg-primary text-primary-foreground" : "border-border/40"}
-            >
-              {filter.label}
-            </Button>
-          ))}
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="py-20 md:py-32 px-6 max-w-6xl mx-auto">
-        <div className="space-y-8">
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} {...project} featured={project.featured} />
-          ))}
-        </div>
-
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No projects found in this category.</p>
+            {/* Quick Navigation Anchors */}
+            <Reveal delay={3}>
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginTop: "1.75rem" }}>
+                <a
+                  href="#industry-internships"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    padding: "8px 16px",
+                    backgroundColor: "var(--ink)",
+                    color: "var(--paper)",
+                    textDecoration: "none",
+                  }}
+                >
+                  <Briefcase size={13} /> Industry Internships ({internships.length})
+                </a>
+                <a
+                  href="#production-projects"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    padding: "8px 16px",
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--rule-dark)",
+                    color: "var(--ink)",
+                    textDecoration: "none",
+                  }}
+                >
+                  <FolderGit2 size={13} style={{ color: "var(--olive)" }} /> Production Projects ({projects.length})
+                </a>
+                <a
+                  href="#academic-credentials"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    padding: "8px 16px",
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--rule-dark)",
+                    color: "var(--ink)",
+                    textDecoration: "none",
+                  }}
+                >
+                  <GraduationCap size={13} style={{ color: "var(--olive)" }} /> Education & Academics
+                </a>
+              </div>
+            </Reveal>
           </div>
-        )}
-      </section>
+        </section>
 
+        {/* ── SECTION 1: INDUSTRY INTERNSHIPS & ROLES ───────────────── */}
+        <section
+          id="industry-internships"
+          style={{
+            paddingBottom: "clamp(4rem, 8vw, 6.5rem)",
+          }}
+        >
+          <div className="container-editorial">
+            <div
+              style={{
+                borderTop: "1px solid var(--rule)",
+                paddingTop: "clamp(2rem, 4vw, 3rem)",
+                marginBottom: "2.5rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "0.5rem",
+              }}
+            >
+              <div>
+                <span className="text-label-olive" style={{ fontSize: "0.6875rem", display: "block", marginBottom: "0.2rem" }}>
+                  Section 01
+                </span>
+                <h2 className="font-serif" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", color: "var(--ink)" }}>
+                  Industry Internships & Commercial Experience
+                </h2>
+              </div>
+              <span className="text-project-num" style={{ fontSize: "0.875rem" }}>
+                05 Roles
+              </span>
+            </div>
+
+            {/* Structured Internship Cards Grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))",
+                gap: "clamp(1.25rem, 3vw, 2rem)",
+              }}
+            >
+              {internships.map((item, index) => (
+                <Reveal key={index} delay={index < 4 ? (index as 0 | 1 | 2 | 3) : 0}>
+                  <div
+                    style={{
+                      backgroundColor: "var(--surface)",
+                      border: "1px solid var(--rule-dark)",
+                      borderRadius: "4px",
+                      padding: "1.25rem 1.5rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      height: "100%",
+                    }}
+                  >
+                    <div>
+                      {/* Header with Role, Org & Period */}
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", marginBottom: "0.25rem" }}>
+                        <h3 style={{ fontSize: "1.0625rem", fontWeight: 700, color: "var(--ink)" }}>
+                          {item.role}
+                        </h3>
+                        <span className="text-project-num" style={{ fontSize: "0.6875rem" }}>
+                          {item.period}
+                        </span>
+                      </div>
+
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.75rem", color: "var(--olive)", fontWeight: 600, marginBottom: "0.75rem" }}>
+                        <span>{item.org}</span>
+                        {item.location && (
+                          <>
+                            <span>·</span>
+                            <span style={{ color: "var(--ink-muted)", fontWeight: 400, display: "inline-flex", alignItems: "center", gap: "0.2rem" }}>
+                              <MapPin size={10} /> {item.location}
+                            </span>
+                          </>
+                        )}
+                      </div>
+
+                      <p style={{ fontSize: "0.8125rem", lineHeight: 1.55, color: "var(--ink)", marginBottom: "0.75rem" }}>
+                        {item.description}
+                      </p>
+
+                      {/* Highlights */}
+                      <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.3rem", marginBottom: "1rem" }}>
+                        {item.highlights.map((h, i) => (
+                          <li
+                            key={i}
+                            style={{
+                              fontSize: "0.75rem",
+                              lineHeight: 1.5,
+                              color: "var(--ink-muted)",
+                              display: "flex",
+                              gap: "0.4rem",
+                            }}
+                          >
+                            <span style={{ color: "var(--olive)", flexShrink: 0 }}>•</span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Skill Tags & GitHub Link */}
+                    <div
+                      style={{
+                        borderTop: "1px dashed var(--rule)",
+                        paddingTop: "0.65rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      {item.skills && (
+                        <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap" }}>
+                          {item.skills.map((s) => (
+                            <span
+                              key={s}
+                              style={{
+                                fontSize: "0.5625rem",
+                                fontWeight: 500,
+                                padding: "1px 5px",
+                                backgroundColor: "#FFFFFF",
+                                border: "1px solid var(--rule)",
+                                color: "var(--ink)",
+                                borderRadius: "2px",
+                              }}
+                            >
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {item.github && (
+                        <a
+                          href={item.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.25rem",
+                            fontSize: "0.6875rem",
+                            fontWeight: 600,
+                            color: "var(--olive)",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          <Github size={11} /> Project Code ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SECTION 2: PRODUCTION PROJECTS & SYSTEMS ───────────────── */}
+        <section
+          id="production-projects"
+          style={{
+            paddingBlock: "clamp(4rem, 8vw, 6.5rem)",
+            backgroundColor: "var(--surface)",
+            borderTop: "1px solid var(--rule)",
+          }}
+        >
+          <div className="container-editorial">
+            <div
+              style={{
+                marginBottom: "2.5rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "0.5rem",
+              }}
+            >
+              <div>
+                <span className="text-label-olive" style={{ fontSize: "0.6875rem", display: "block", marginBottom: "0.2rem" }}>
+                  Section 02
+                </span>
+                <h2 className="font-serif" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", color: "var(--ink)" }}>
+                  Production Systems & Case Studies
+                </h2>
+              </div>
+              <span className="text-project-num" style={{ fontSize: "0.875rem" }}>
+                {projects.length} Architectures
+              </span>
+            </div>
+
+            {/* Clean, Uncongested Project Grid */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+                gap: "clamp(1.5rem, 3.5vw, 2.5rem)",
+              }}
+            >
+              {projects.map((project, index) => (
+                <Reveal key={project.slug} delay={index < 4 ? (index as 0 | 1 | 2 | 3) : 0}>
+                  <article
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      border: "1px solid var(--rule-dark)",
+                      borderRadius: "4px",
+                      padding: "clamp(1.25rem, 3vw, 1.75rem)",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      height: "100%",
+                      transition: "border-color 0.2s ease",
+                    }}
+                  >
+                    <div>
+                      {/* Top Meta Line */}
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginBottom: "0.75rem",
+                        }}
+                      >
+                        <span className="text-project-num" style={{ fontSize: "0.8125rem" }}>
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "0.625rem",
+                            fontWeight: 600,
+                            letterSpacing: "0.06em",
+                            textTransform: "uppercase",
+                            padding: "2px 7px",
+                            backgroundColor: "var(--surface)",
+                            border: "1px solid var(--rule-dark)",
+                            color: "var(--olive)",
+                            borderRadius: "2px",
+                          }}
+                        >
+                          {project.category}
+                        </span>
+                      </div>
+
+                      {/* Project Name */}
+                      <h3
+                        className="font-serif"
+                        style={{
+                          fontSize: "1.375rem",
+                          lineHeight: 1.25,
+                          letterSpacing: "-0.01em",
+                          color: "var(--ink)",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        {project.name}
+                      </h3>
+
+                      {/* Short Description */}
+                      <p
+                        style={{
+                          fontSize: "0.875rem",
+                          lineHeight: 1.6,
+                          color: "var(--ink-muted)",
+                          marginBottom: "1.25rem",
+                        }}
+                      >
+                        {project.shortDescription}
+                      </p>
+
+                      {/* Technology Chips */}
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginBottom: "1.5rem" }}>
+                        {project.technologies.map((t) => (
+                          <span
+                            key={t}
+                            style={{
+                              fontSize: "0.625rem",
+                              fontWeight: 500,
+                              padding: "2px 6px",
+                              backgroundColor: "var(--surface)",
+                              border: "1px solid var(--rule)",
+                              color: "var(--ink)",
+                              borderRadius: "2px",
+                            }}
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Links */}
+                    <div
+                      style={{
+                        borderTop: "1px dashed var(--rule)",
+                        paddingTop: "0.875rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      {project.github ? (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.3rem",
+                            fontSize: "0.75rem",
+                            fontWeight: 500,
+                            color: "var(--ink)",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          <Github size={12} /> GitHub ↗
+                        </a>
+                      ) : (
+                        <span />
+                      )}
+
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.3rem",
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          color: "var(--olive)",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        Case Study <ArrowRight size={12} />
+                      </Link>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SECTION 3: ACADEMIC CREDENTIALS & EDUCATION (3 DISTINCT CARDS) ── */}
+        <section
+          id="academic-credentials"
+          style={{
+            paddingBlock: "clamp(4rem, 8vw, 6.5rem)",
+            borderTop: "1px solid var(--rule)",
+          }}
+        >
+          <div className="container-editorial">
+            <div
+              style={{
+                marginBottom: "2.5rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "0.5rem",
+              }}
+            >
+              <div>
+                <span className="text-label-olive" style={{ fontSize: "0.6875rem", display: "block", marginBottom: "0.2rem" }}>
+                  Section 03
+                </span>
+                <h2 className="font-serif" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", color: "var(--ink)" }}>
+                  Education & Academic Credentials
+                </h2>
+              </div>
+              <span className="text-project-num" style={{ fontSize: "0.875rem" }}>
+                03 Milestones
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+                gap: "1.5rem",
+              }}
+            >
+              {/* Box 1: B.Tech CSE (AI) */}
+              <Reveal delay={0}>
+                <div
+                  style={{
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--rule-dark)",
+                    borderRadius: "4px",
+                    padding: "1.5rem 1.6rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+                      <span className="text-project-num" style={{ fontSize: "0.75rem" }}>01 · Degree</span>
+                      <span
+                        style={{
+                          fontSize: "0.6875rem",
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid var(--rule-dark)",
+                          color: "var(--olive)",
+                          borderRadius: "2px",
+                        }}
+                      >
+                        CGPA: 7.95
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontSize: "1.1875rem", fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, marginBottom: "0.35rem" }}>
+                      B.Tech in Computer Science & Engineering (AI)
+                    </h3>
+
+                    <div style={{ fontSize: "0.75rem", color: "var(--olive)", fontWeight: 600, marginBottom: "0.75rem" }}>
+                      Mandsaur Institute of Technology · Mandsaur, MP
+                    </div>
+
+                    <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "var(--ink)", marginBottom: "1rem" }}>
+                      Core computer science curriculum with specialization in Artificial Intelligence and Machine Learning.
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      borderTop: "1px dashed var(--rule)",
+                      paddingTop: "0.75rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      fontSize: "0.6875rem",
+                      color: "var(--ink-muted)",
+                    }}
+                  >
+                    <span>Aug 2022 — Jun 2026</span>
+                    <span className="text-label-olive" style={{ fontSize: "0.625rem" }}>Undergraduate</span>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Box 2: Senior Secondary (Class XII) */}
+              <Reveal delay={1}>
+                <div
+                  style={{
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--rule)",
+                    borderRadius: "4px",
+                    padding: "1.5rem 1.6rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+                      <span className="text-project-num" style={{ fontSize: "0.75rem" }}>02 · Senior Secondary</span>
+                      <span
+                        style={{
+                          fontSize: "0.6875rem",
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid var(--rule)",
+                          color: "var(--olive)",
+                          borderRadius: "2px",
+                        }}
+                      >
+                        73.6%
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontSize: "1.1875rem", fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, marginBottom: "0.35rem" }}>
+                      Class XII · Senior Secondary
+                    </h3>
+
+                    <div style={{ fontSize: "0.75rem", color: "var(--olive)", fontWeight: 600, marginBottom: "0.75rem" }}>
+                      Delhi Public School · Mandsaur, MP
+                    </div>
+
+                    <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "var(--ink-muted)", marginBottom: "1rem" }}>
+                      Higher secondary education with core focus in Mathematics, Physics, Chemistry, and Computer Science foundations.
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      borderTop: "1px dashed var(--rule)",
+                      paddingTop: "0.75rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      fontSize: "0.6875rem",
+                      color: "var(--ink-muted)",
+                    }}
+                  >
+                    <span>Jul 2021 — May 2022</span>
+                  </div>
+                </div>
+              </Reveal>
+
+              {/* Box 3: Secondary (Class X) */}
+              <Reveal delay={2}>
+                <div
+                  style={{
+                    backgroundColor: "var(--surface)",
+                    border: "1px solid var(--rule)",
+                    borderRadius: "4px",
+                    padding: "1.5rem 1.6rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+                      <span className="text-project-num" style={{ fontSize: "0.75rem" }}>03 · Secondary</span>
+                      <span
+                        style={{
+                          fontSize: "0.6875rem",
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          backgroundColor: "#FFFFFF",
+                          border: "1px solid var(--rule)",
+                          color: "var(--olive)",
+                          borderRadius: "2px",
+                        }}
+                      >
+                        77.0%
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontSize: "1.1875rem", fontWeight: 700, color: "var(--ink)", lineHeight: 1.25, marginBottom: "0.35rem" }}>
+                      Class X · Secondary Education
+                    </h3>
+
+                    <div style={{ fontSize: "0.75rem", color: "var(--olive)", fontWeight: 600, marginBottom: "0.75rem" }}>
+                      Delhi Public School · Mandsaur, MP
+                    </div>
+
+                    <p style={{ fontSize: "0.8125rem", lineHeight: 1.6, color: "var(--ink-muted)", marginBottom: "1rem" }}>
+                      Secondary education establishing core foundations in Mathematics, Science, and Analytical Problem Solving.
+                    </p>
+                  </div>
+
+                  <div
+                    style={{
+                      borderTop: "1px dashed var(--rule)",
+                      paddingTop: "0.75rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      fontSize: "0.6875rem",
+                      color: "var(--ink-muted)",
+                    }}
+                  >
+                    <span>Jul 2019 — May 2020</span>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        {/* ── CALL TO ACTION ─────────────────────────────────────────── */}
+        <section style={{ paddingBlock: "clamp(3rem, 6vw, 5rem)", backgroundColor: "var(--surface)", borderTop: "1px solid var(--rule)" }}>
+          <div className="container-editorial">
+            <Reveal>
+              <div
+                style={{
+                  border: "1px solid var(--rule-dark)",
+                  padding: "clamp(2rem, 5vw, 3.5rem)",
+                  backgroundColor: "#FFFFFF",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "1.5rem",
+                  borderRadius: "2px",
+                }}
+              >
+                <div>
+                  <h3 className="font-serif" style={{ fontSize: "1.5rem", color: "var(--ink)", marginBottom: "0.35rem" }}>
+                    Have a technical challenge or role in mind?
+                  </h3>
+                  <p style={{ fontSize: "0.875rem", color: "var(--ink-muted)" }}>
+                    Available for Full-Stack, Backend, and AI/ML engineering positions.
+                  </p>
+                </div>
+
+                <Link
+                  href="/contact"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.4rem",
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.04em",
+                    padding: "10px 20px",
+                    backgroundColor: "var(--ink)",
+                    color: "var(--paper)",
+                  }}
+                >
+                  Get in Touch <ArrowRight size={14} />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
       <Footer />
-    </main>
+    </div>
   )
 }

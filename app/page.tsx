@@ -1,229 +1,376 @@
+import Link from "next/link"
+import { ArrowRight, Mail, Phone, MapPin, Linkedin, Github, Code, ExternalLink } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { SectionHeader } from "@/components/section-header"
-import { TechGrid } from "@/components/tech-grid"
-import { ProjectCard } from "@/components/project-card"
-import { CTASection } from "@/components/cta-section"
-import { Button } from "@/components/ui/button"
-import { Github, Linkedin, ArrowRight } from "lucide-react"
-import Link from "next/link"
+import { Reveal } from "@/components/reveal"
+import { meta } from "@/lib/data/meta"
+import { InteractiveResumeSheet } from "@/components/art/InteractiveResumeSheet"
+import { EditorialStatement } from "@/components/art/EditorialStatement"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 max-w-6xl mx-auto">
-        <div className="space-y-8 mb-12">
-          <div className="space-y-4">
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground text-balance leading-tight">
-              Yuvraj Singh Rathore
-            </h1>
-            <p className="text-2xl md:text-3xl text-muted-foreground font-light">Software Engineer | AI & Full-Stack</p>
+      <main style={{ flex: 1 }}>
+        {/* ── HERO & 3D INTERACTIVE RESUME ────────────────────────────── */}
+        <section
+          aria-label="Introduction and Interactive Resume"
+          style={{
+            paddingTop: "clamp(6rem, 11vw, 8.5rem)",
+            paddingBottom: "clamp(4rem, 8vw, 6.5rem)",
+          }}
+        >
+          <div className="container-editorial">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 380px), 1fr))",
+                gap: "clamp(2.5rem, 5vw, 4.5rem)",
+                alignItems: "start",
+              }}
+            >
+              {/* Left: Handwritten Hero & Personal Narrative */}
+              <div style={{ position: "sticky", top: "5.5rem" }}>
+                {/* Status Indicator */}
+                <Reveal>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0",
+                      marginBottom: "1.5rem",
+                    }}
+                  >
+                    <span className="status-dot" aria-hidden="true" />
+                    <span className="text-label-olive">{meta.status.label}</span>
+                    <span
+                      className="text-label"
+                      style={{ marginLeft: "1rem", color: "var(--ink-muted)" }}
+                    >
+                      · {meta.location}
+                    </span>
+                  </div>
+                </Reveal>
+
+                {/* Handwritten Greeting — Caveat */}
+                <Reveal delay={1}>
+                  <h1
+                    className="font-hand text-hero"
+                    style={{ color: "var(--ink)", marginBottom: "0.5rem" }}
+                  >
+                    I&apos;m Yuvraj.
+                  </h1>
+                </Reveal>
+
+                {/* Editorial Headline */}
+                <Reveal delay={2}>
+                  <p
+                    className="font-serif"
+                    style={{
+                      fontSize: "clamp(1.35rem, 2.5vw, 1.875rem)",
+                      color: "var(--ink)",
+                      lineHeight: 1.3,
+                      marginBottom: "1.75rem",
+                      maxWidth: "34ch",
+                    }}
+                  >
+                    {meta.headline}
+                  </p>
+                </Reveal>
+
+                {/* Bio */}
+                <Reveal delay={3}>
+                  <p
+                    className="prose-editorial"
+                    style={{ marginBottom: "2.25rem", maxWidth: "46ch" }}
+                  >
+                    {meta.bio}
+                  </p>
+                </Reveal>
+
+                {/* Quick Portals */}
+                <Reveal delay={3}>
+                  <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", alignItems: "center" }}>
+                    <Link
+                      href="/projects"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                        fontSize: "0.875rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                        padding: "8px 16px",
+                        backgroundColor: "var(--ink)",
+                        color: "var(--paper)",
+                        transition: "all 0.15s ease",
+                      }}
+                    >
+                      View Projects <ArrowRight size={14} strokeWidth={1.5} />
+                    </Link>
+
+                    <Link
+                      href="/about"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.375rem",
+                        fontSize: "0.875rem",
+                        fontWeight: 500,
+                        color: "var(--ink-muted)",
+                        borderBottom: "1px solid var(--rule-dark)",
+                        paddingBottom: "2px",
+                        transition: "color 0.15s",
+                      }}
+                    >
+                      About & Bio
+                    </Link>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Right: 3D Interactive Perspective Resume Sheet */}
+              <Reveal delay={1}>
+                <div style={{ width: "100%" }}>
+                  <InteractiveResumeSheet />
+                </div>
+              </Reveal>
+            </div>
           </div>
+        </section>
 
-          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
-            I build intelligent systems and scalable web applications. Passionate about AI, backend architecture, and
-            creating elegant solutions to complex problems. Currently working on cutting-edge projects that bridge
-            software engineering and artificial intelligence.
-          </p>
+        {/* ── ENGINEERING PRINCIPLES & ARCHITECTURE ─────────────────── */}
+        <section
+          aria-label="Engineering Principles"
+          style={{ paddingBottom: "clamp(5rem, 10vw, 8rem)" }}
+        >
+          <div className="container-editorial">
+            <EditorialStatement />
+          </div>
+        </section>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Link href="/projects">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 w-full sm:w-auto"
+        {/* ── ENHANCED CONTACT DOSSIER ───────────────────────────────── */}
+        <section
+          aria-label="Direct Contact and Hiring"
+          style={{
+            paddingBlock: "clamp(4.5rem, 9vw, 7.5rem)",
+            borderTop: "1px solid var(--rule)",
+            backgroundColor: "var(--surface)",
+          }}
+        >
+          <div className="container-editorial">
+            <Reveal>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                  gap: "clamp(2.5rem, 5vw, 4.5rem)",
+                  alignItems: "start",
+                }}
               >
-                View Projects <ArrowRight size={16} />
-              </Button>
-            </Link>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-border/40 hover:bg-card/60 bg-transparent gap-2 w-full sm:w-auto"
-              >
-                <Github size={16} /> GitHub
-              </Button>
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-border/40 hover:bg-card/60 bg-transparent gap-2 w-full sm:w-auto"
-              >
-                <Linkedin size={16} /> LinkedIn
-              </Button>
-            </a>
+                {/* Left Side: Professional Pitch */}
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
+                    <span className="status-dot" aria-hidden="true" />
+                    <span className="text-label-olive">Open for Opportunities</span>
+                  </div>
+
+                  <h2
+                    className="font-serif"
+                    style={{
+                      fontSize: "clamp(2rem, 4vw, 3rem)",
+                      lineHeight: 1.15,
+                      letterSpacing: "-0.02em",
+                      color: "var(--ink)",
+                      marginBottom: "1.25rem",
+                    }}
+                  >
+                    Let&apos;s build scalable, production-grade systems together.
+                  </h2>
+
+                  <p
+                    className="prose-editorial"
+                    style={{ fontSize: "1rem", lineHeight: 1.7, marginBottom: "2rem", maxWidth: "46ch" }}
+                  >
+                    Seeking Full-Stack, Backend, or AI/ML roles where I can leverage expertise in Java, Next.js, FastAPI, RAG pipelines, and database optimization to create high-impact software.
+                  </p>
+
+                  <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+                    <a
+                      href={`mailto:${meta.contact.email}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        fontSize: "0.8125rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                        padding: "10px 20px",
+                        backgroundColor: "var(--ink)",
+                        color: "var(--paper)",
+                        transition: "all 0.15s ease",
+                      }}
+                    >
+                      <Mail size={14} /> Send Email Direct
+                    </a>
+
+                    <Link
+                      href="/contact"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.35rem",
+                        fontSize: "0.8125rem",
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.04em",
+                        color: "var(--olive)",
+                        padding: "9px 16px",
+                        border: "1px solid var(--rule-dark)",
+                        backgroundColor: "#FFFFFF",
+                      }}
+                    >
+                      Full Contact Form <ArrowRight size={13} />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Right Side: Structured Contact Matrix */}
+                <div
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid var(--rule-dark)",
+                    borderRadius: "4px",
+                    padding: "clamp(1.5rem, 3.5vw, 2.25rem)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1.25rem",
+                  }}
+                >
+                  <span className="text-label-olive" style={{ fontSize: "0.6875rem" }}>
+                    Direct Communication Channels
+                  </span>
+
+                  {/* Email */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", paddingBottom: "1rem", borderBottom: "1px solid var(--rule)" }}>
+                    <div style={{ padding: "8px", backgroundColor: "var(--surface)", border: "1px solid var(--rule)", borderRadius: "2px", color: "var(--olive)" }}>
+                      <Mail size={16} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", display: "block" }}>
+                        Email
+                      </span>
+                      <a href={`mailto:${meta.contact.email}`} style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--ink)", textDecoration: "underline" }}>
+                        {meta.contact.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", paddingBottom: "1rem", borderBottom: "1px solid var(--rule)" }}>
+                    <div style={{ padding: "8px", backgroundColor: "var(--surface)", border: "1px solid var(--rule)", borderRadius: "2px", color: "var(--olive)" }}>
+                      <Phone size={16} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", display: "block" }}>
+                        Phone / WhatsApp
+                      </span>
+                      <a href={`tel:${meta.phone.replace(/\s+/g, "")}`} style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--ink)", textDecoration: "none" }}>
+                        {meta.phone}
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.875rem", paddingBottom: "1rem", borderBottom: "1px solid var(--rule)" }}>
+                    <div style={{ padding: "8px", backgroundColor: "var(--surface)", border: "1px solid var(--rule)", borderRadius: "2px", color: "var(--olive)" }}>
+                      <MapPin size={16} />
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", display: "block" }}>
+                        Location
+                      </span>
+                      <span style={{ fontSize: "0.875rem", fontWeight: 500, color: "var(--ink)" }}>
+                        Mandsaur, Madhya Pradesh, India (Open to Remote & Relocation)
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Social Profiles Grid */}
+                  <div style={{ paddingTop: "0.25rem" }}>
+                    <span style={{ fontSize: "0.6875rem", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-muted)", display: "block", marginBottom: "0.5rem" }}>
+                      Engineering Profiles
+                    </span>
+                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                      <a
+                        href="https://linkedin.com/in/uv3704"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          padding: "6px 12px",
+                          backgroundColor: "var(--surface)",
+                          border: "1px solid var(--rule)",
+                          color: "var(--olive)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.3rem",
+                        }}
+                      >
+                        <Linkedin size={12} /> LinkedIn ↗
+                      </a>
+
+                      <a
+                        href="https://github.com/uv3704"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          padding: "6px 12px",
+                          backgroundColor: "var(--surface)",
+                          border: "1px solid var(--rule)",
+                          color: "var(--olive)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.3rem",
+                        }}
+                      >
+                        <Github size={12} /> GitHub ↗
+                      </a>
+
+                      <a
+                        href="https://leetcode.com/uv3704"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: "0.75rem",
+                          fontWeight: 600,
+                          padding: "6px 12px",
+                          backgroundColor: "var(--surface)",
+                          border: "1px solid var(--rule)",
+                          color: "var(--olive)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.3rem",
+                        }}
+                      >
+                        <Code size={12} /> LeetCode ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
-        </div>
-      </section>
-
-      {/* What I Do Section */}
-      <section className="py-20 md:py-32 px-6 max-w-6xl mx-auto border-t border-border/40">
-        <SectionHeader
-          subtitle="Services"
-          title="What I Do"
-          description="Specialized expertise in building scalable systems, AI-driven applications, and modern web platforms."
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40 hover:bg-card/60 transition-colors">
-            <h3 className="text-xl font-bold text-foreground">Backend Engineering</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Design and implement robust APIs, microservices, and database architectures. Expertise in Python, Node.js,
-              and cloud-native solutions.
-            </p>
-          </div>
-
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40 hover:bg-card/60 transition-colors">
-            <h3 className="text-xl font-bold text-foreground">AI & Machine Learning</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Build intelligent systems using LLMs, RAG pipelines, and ML models. Integration of AI into production
-              applications.
-            </p>
-          </div>
-
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40 hover:bg-card/60 transition-colors">
-            <h3 className="text-xl font-bold text-foreground">Full-Stack Development</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Create end-to-end web applications with modern frameworks. Focus on performance, scalability, and user
-              experience.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Tech Stack Section */}
-      <section className="py-20 md:py-32 px-6 max-w-6xl mx-auto border-t border-border/40">
-        <SectionHeader
-          subtitle="Tech Stack"
-          title="Technologies I Use"
-          description="A curated set of tools and frameworks for building modern applications."
-        />
-
-        <TechGrid
-          items={[
-            { name: "Python" },
-            { name: "TypeScript" },
-            { name: "React" },
-            { name: "Next.js" },
-            { name: "Node.js" },
-            { name: "PostgreSQL" },
-            { name: "FastAPI" },
-            { name: "TailwindCSS" },
-            { name: "AWS" },
-            { name: "Docker" },
-            { name: "LangChain" },
-            { name: "GraphQL" },
-          ]}
-        />
-      </section>
-
-      {/* Featured Projects Section */}
-      <section className="py-20 md:py-32 px-6 max-w-6xl mx-auto border-t border-border/40">
-        <SectionHeader
-          subtitle="Portfolio"
-          title="Featured Projects"
-          description="Recent projects showcasing my expertise in full-stack development, AI integration, and system design."
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <ProjectCard
-            featured
-            title="AI Content Platform"
-            description="A sophisticated platform for generating, managing, and publishing AI-assisted content at scale."
-            problem="Creating quality content at scale is time-consuming and resource-intensive for most organizations."
-            solution="Built a RAG-powered system that ingests brand guidelines and generates contextually relevant content. Integrated with popular publishing platforms for seamless workflow."
-            outcome="Reduced content creation time by 70% while maintaining quality. Powered by Claude AI and vector databases for semantic search."
-            technologies={["Python", "FastAPI", "LangChain", "PostgreSQL", "React"]}
-            links={{
-              github: "https://github.com",
-              live: "https://example.com",
-            }}
-          />
-
-          <ProjectCard
-            featured
-            title="Real-time Analytics Dashboard"
-            description="Enterprise-grade dashboard for monitoring and analyzing system metrics across distributed infrastructure."
-            problem="Teams lacked real-time visibility into system performance metrics and needed complex custom dashboards."
-            solution="Created a modular dashboard system with WebSocket support for live data updates. Built custom visualization components for different data types."
-            outcome="Enabled teams to respond to issues 5x faster. Processed 1M+ events per second with <100ms latency."
-            technologies={["Next.js", "TypeScript", "WebSocket", "PostgreSQL", "TailwindCSS"]}
-            links={{
-              github: "https://github.com",
-              live: "https://example.com",
-            }}
-          />
-        </div>
-
-        <div className="text-center">
-          <Link href="/projects">
-            <Button size="lg" variant="outline" className="border-border/40 hover:bg-card/60 bg-transparent gap-2">
-              View All Projects <ArrowRight size={16} />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Experience Summary Section */}
-      <section className="py-20 md:py-32 px-6 max-w-6xl mx-auto border-t border-border/40">
-        <SectionHeader
-          subtitle="Background"
-          title="Experience"
-          description="Building products and solving problems across various domains."
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40">
-            <div className="text-2xl font-bold text-primary">3+</div>
-            <p className="font-semibold text-foreground">Years of Experience</p>
-            <p className="text-sm text-muted-foreground">
-              Working on full-stack and backend systems at various scales.
-            </p>
-          </div>
-
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40">
-            <div className="text-2xl font-bold text-primary">15+</div>
-            <p className="font-semibold text-foreground">Projects Shipped</p>
-            <p className="text-sm text-muted-foreground">From MVPs to production systems serving thousands of users.</p>
-          </div>
-
-          <div className="space-y-4 p-6 rounded-lg border border-border/40 bg-card/40">
-            <div className="text-2xl font-bold text-primary">5+</div>
-            <p className="font-semibold text-foreground">AI/ML Integrations</p>
-            <p className="text-sm text-muted-foreground">
-              LLM applications, RAG systems, and machine learning pipelines.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/experience">
-            <Button size="lg" variant="outline" className="border-border/40 hover:bg-card/60 bg-transparent gap-2">
-              View Full Timeline <ArrowRight size={16} />
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <CTASection
-        title="Let's Build Something Great"
-        description="Interested in discussing a project, sharing ideas, or exploring opportunities? I'm always open to connecting with talented people and interesting problems."
-        primaryButton={{
-          label: "Get in Touch",
-          href: "/contact",
-        }}
-        secondaryButton={{
-          label: "View My Work",
-          href: "/projects",
-        }}
-      />
+        </section>
+      </main>
 
       <Footer />
-    </main>
+    </div>
   )
 }

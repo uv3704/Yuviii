@@ -1,65 +1,90 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
+import { meta } from "@/lib/data/meta"
+
+const navLinks = [
+  { href: "/projects", label: "Work"    },
+  { href: "/about",    label: "About"   },
+  { href: "/now",      label: "Now"     },
+  { href: "/contact",  label: "Contact" },
+]
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const pathname   = usePathname()
+  const [scrolled, setScrolled] = useState(false)
+  const [open,     setOpen]     = useState(false)
 
-  const links = [
-    { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
-    { href: "/about", label: "About" },
-    { href: "/experience", label: "Experience" },
-    { href: "/contact", label: "Contact" },
-  ]
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => { setOpen(false) }, [pathname])
 
   return (
-    <nav className="fixed top-0 w-full border-b border-border/40 bg-background/80 backdrop-blur-sm z-50">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-          Y.S.R
+    <header
+      className={`nav-root ${scrolled ? "scrolled" : ""} ${open ? "nav-mobile-open" : ""}`}
+      role="banner"
+    >
+      <div className="container-editorial nav-inner">
+        {/* Logo — handwriting font for signature quality */}
+        <Link href="/" className="nav-logo" aria-label="Home">
+          {meta.name}
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-foreground hover:text-primary transition-colors">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-background border-b border-border/40 md:hidden">
-            <div className="flex flex-col p-4 gap-4">
-              {links.map((link) => (
+        {/* Desktop links */}
+        <nav aria-label="Main navigation">
+          <ul className="nav-links">
+            {navLinks.map((link) => (
+              <li key={link.href}>
                 <Link
-                  key={link.href}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
-                  onClick={() => setIsOpen(false)}
+                  className={`nav-link ${pathname.startsWith(link.href) ? "active" : ""}`}
                 >
                   {link.label}
                 </Link>
-              ))}
-            </div>
-          </div>
-        )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Mobile toggle */}
+        <button
+          className="nav-mobile-toggle"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
+        </button>
       </div>
-    </nav>
+
+      {/* Mobile menu — rendered within the header for styling */}
+      {open && (
+        <div className="nav-mobile-open">
+          <nav aria-label="Mobile navigation">
+            <ul className="nav-links">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`nav-link ${pathname.startsWith(link.href) ? "active" : ""}`}
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
+    </header>
   )
 }

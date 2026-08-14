@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured } from "./supabase"
+import { getPostgresPool, ensureTablesExist } from "./postgres"
 
 export interface ContactMessage {
   id: string
@@ -22,7 +22,7 @@ export interface ReactionStats {
   [key: string]: number
 }
 
-// In-memory fallback cache (used when Supabase env vars are not set during initial build)
+// In-memory fallback defaults
 let inMemoryMessages: ContactMessage[] = []
 let inMemoryGuestbook: GuestbookEntry[] = [
   {
@@ -53,27 +53,25 @@ let inMemoryReactions: ReactionStats = {
 export const db = {
   // ── Contact Messages ───────────────────────────────────────────────
   getMessages: async (): Promise<ContactMessage[]> => {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from("messages")
-          .select("*")
-          .order("created_at", { ascending: false })
-
-        if (!error && data) {
-          return data.map((row) => ({
-            id: String(row.id),
-            name: row.name,
-            email: row.email,
-            company: row.company || "",
-            topic: row.topic || "General Inquiry",
-            message: row.message,
-            createdAt: row.created_at || new Date().toISOString(),
-          }))
-        }
-      } catch (err) {
-        console.error("Supabase getMessages error:", err)
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(
+        `SELECT id, name, email, company, topic, message, created_at FROM messages ORDER BY created_at DESC;`
+      )
+      if (result.rows) {
+        return result.rows.map((r) => ({
+          id: String(r.id),
+          name: r.name,
+          email: r.email,
+          company: r.company || "",
+          topic: r.topic || "General Inquiry",
+          message: r.message,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+        }))
       }
+    } catch (err) {
+      console.error("PostgreSQL getMessages error:", err)
     }
     return inMemoryMessages
   },
@@ -85,36 +83,30 @@ export const db = {
       createdAt: new Date().toISOString(),
     }
 
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from("messages")
-          .insert([
-            {
-              name: msg.name,
-              email: msg.email,
-              company: msg.company || null,
-              topic: msg.topic || "General Inquiry",
-              message: msg.message,
-            },
-          ])
-          .select()
-          .single()
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(
+        `INSERT INTO messages (name, email, company, topic, message)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING id, name, email, company, topic, message, created_at;`,
+        [msg.name, msg.email, msg.company || null, msg.topic || "General Inquiry", msg.message]
+      )
 
-        if (!error && data) {
-          return {
-            id: String(data.id),
-            name: data.name,
-            email: data.email,
-            company: data.company || "",
-            topic: data.topic,
-            message: data.message,
-            createdAt: data.created_at,
-          }
+      if (result.rows && result.rows[0]) {
+        const row = result.rows[0]
+        return {
+          id: String(row.id),
+          name: row.name,
+          email: row.email,
+          company: row.company || "",
+          topic: row.topic,
+          message: row.message,
+          createdAt: new Date(row.created_at).toISOString(),
         }
-      } catch (err) {
-        console.error("Supabase addMessage error:", err)
       }
+    } catch (err) {
+      console.error("PostgreSQL addMessage error:", err)
     }
 
     inMemoryMessages.unshift(newMsg)
@@ -123,25 +115,23 @@ export const db = {
 
   // ── Guestbook Signatures ───────────────────────────────────────────
   getGuestbook: async (): Promise<GuestbookEntry[]> => {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from("guestbook")
-          .select("*")
-          .order("created_at", { ascending: false })
-
-        if (!error && data && data.length > 0) {
-          return data.map((row) => ({
-            id: String(row.id),
-            name: row.name,
-            role: row.role || "Visitor",
-            message: row.message,
-            createdAt: row.created_at || new Date().toISOString(),
-          }))
-        }
-      } catch (err) {
-        console.error("Supabase getGuestbook error:", err)
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(
+        `SELECT id, name, role, message, created_at FROM guestbook ORDER BY created_at DESC;`
+      )
+      if (result.rows && result.rows.length > 0) {
+        return result.rows.map((r) => ({
+          id: String(r.id),
+          name: r.name,
+          role: r.role || "Visitor",
+          message: r.message,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+        }))
       }
+    } catch (err) {
+      console.error("PostgreSQL getGuestbook error:", err)
     }
     return inMemoryGuestbook
   },
@@ -153,32 +143,28 @@ export const db = {
       createdAt: new Date().toISOString(),
     }
 
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from("guestbook")
-          .insert([
-            {
-              name: entry.name,
-              role: entry.role || "Visitor",
-              message: entry.message,
-            },
-          ])
-          .select()
-          .single()
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(
+        `INSERT INTO guestbook (name, role, message)
+         VALUES ($1, $2, $3)
+         RETURNING id, name, role, message, created_at;`,
+        [entry.name, entry.role || "Visitor / Engineer", entry.message]
+      )
 
-        if (!error && data) {
-          return {
-            id: String(data.id),
-            name: data.name,
-            role: data.role || "",
-            message: data.message,
-            createdAt: data.created_at,
-          }
+      if (result.rows && result.rows[0]) {
+        const row = result.rows[0]
+        return {
+          id: String(row.id),
+          name: row.name,
+          role: row.role || "",
+          message: row.message,
+          createdAt: new Date(row.created_at).toISOString(),
         }
-      } catch (err) {
-        console.error("Supabase addGuestbookEntry error:", err)
       }
+    } catch (err) {
+      console.error("PostgreSQL addGuestbookEntry error:", err)
     }
 
     inMemoryGuestbook.unshift(newEntry)
@@ -187,46 +173,42 @@ export const db = {
 
   // ── Project Reactions / Star Counters ──────────────────────────────
   getReactions: async (): Promise<ReactionStats> => {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase.from("reactions").select("*")
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(`SELECT slug, count FROM reactions;`)
 
-        if (!error && data && data.length > 0) {
-          const stats: ReactionStats = { ...inMemoryReactions }
-          data.forEach((row) => {
-            stats[row.slug] = row.count
-          })
-          return stats
-        }
-      } catch (err) {
-        console.error("Supabase getReactions error:", err)
+      if (result.rows && result.rows.length > 0) {
+        const stats: ReactionStats = { ...inMemoryReactions }
+        result.rows.forEach((r) => {
+          stats[r.slug] = Number(r.count)
+        })
+        return stats
       }
+    } catch (err) {
+      console.error("PostgreSQL getReactions error:", err)
     }
     return inMemoryReactions
   },
 
   incrementReaction: async (slug: string): Promise<number> => {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        // Fetch current count
-        const { data: existing } = await supabase
-          .from("reactions")
-          .select("count")
-          .eq("slug", slug)
-          .single()
+    try {
+      await ensureTablesExist()
+      const pool = getPostgresPool()
+      const result = await pool.query(
+        `INSERT INTO reactions (slug, count, updated_at)
+         VALUES ($1, 1, NOW())
+         ON CONFLICT (slug)
+         DO UPDATE SET count = reactions.count + 1, updated_at = NOW()
+         RETURNING count;`,
+        [slug]
+      )
 
-        const newCount = (existing?.count || 0) + 1
-
-        const { error } = await supabase
-          .from("reactions")
-          .upsert({ slug, count: newCount, updated_at: new Date().toISOString() })
-
-        if (!error) {
-          return newCount
-        }
-      } catch (err) {
-        console.error("Supabase incrementReaction error:", err)
+      if (result.rows && result.rows[0]) {
+        return Number(result.rows[0].count)
       }
+    } catch (err) {
+      console.error("PostgreSQL incrementReaction error:", err)
     }
 
     inMemoryReactions[slug] = (inMemoryReactions[slug] || 0) + 1

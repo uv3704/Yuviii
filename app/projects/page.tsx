@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowRight, ExternalLink, Briefcase, FolderGit2, MapPin, Github, CheckCircle2, GraduationCap } from "lucide-react"
+import { ArrowRight, ExternalLink, Briefcase, FolderGit2, MapPin, Github, CheckCircle2, GraduationCap, Award } from "lucide-react"
 import { Navbar }  from "@/components/navbar"
 import { Footer }  from "@/components/footer"
 import { Reveal }  from "@/components/reveal"
@@ -238,24 +238,49 @@ export default function ProjectsPage() {
                         </div>
                       )}
 
-                      {item.github && (
-                        <a
-                          href={item.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "0.25rem",
-                            fontSize: "0.6875rem",
-                            fontWeight: 600,
-                            color: "var(--olive)",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          <Github size={11} /> Project Code ↗
-                        </a>
-                      )}
+                      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
+                        {item.certificateUrl && (
+                          <a
+                            href={item.certificateUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "0.25rem",
+                              fontSize: "0.6875rem",
+                              fontWeight: 600,
+                              color: "var(--ink)",
+                              backgroundColor: "#FFFFFF",
+                              border: "1px solid var(--rule)",
+                              padding: "2px 7px",
+                              borderRadius: "2px",
+                              textDecoration: "none",
+                            }}
+                          >
+                            <Award size={11} style={{ color: "var(--olive)" }} /> Certificate ↗
+                          </a>
+                        )}
+
+                        {item.github && (
+                          <a
+                            href={item.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "0.25rem",
+                              fontSize: "0.6875rem",
+                              fontWeight: 600,
+                              color: "var(--olive)",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            <Github size={11} /> Project Code ↗
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </Reveal>

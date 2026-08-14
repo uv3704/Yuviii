@@ -360,6 +360,15 @@ export function InteractiveResumeSheet() {
                     <span style={{ fontSize: "0.6875rem", color: "var(--ink-muted)" }}>
                       &nbsp;|&nbsp;{" "}
                       <a
+                        href="/certificates/infosys-certificate.jpg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "var(--ink)", textDecoration: "underline", fontWeight: 600 }}
+                      >
+                        Certificate ↗
+                      </a>
+                      &nbsp;|&nbsp;{" "}
+                      <a
                         href="https://github.com/uv3704/Classifcation_Infosys_Internship_Oct2024"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -370,7 +379,7 @@ export function InteractiveResumeSheet() {
                     </span>
                   </div>
                   <span className="text-project-num" style={{ fontSize: "0.6875rem" }}>
-                    Nov 2024 – Jan 2025
+                    Oct 2024 – Dec 2024
                   </span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", fontStyle: "italic", fontSize: "0.75rem", color: "var(--olive)", marginBottom: "0.3rem" }}>
@@ -393,6 +402,15 @@ export function InteractiveResumeSheet() {
                   <div>
                     <span style={{ fontWeight: 700, color: "var(--ink)" }}>ThrivesUp Consultancy Services Pvt Ltd</span>
                     <span style={{ fontSize: "0.6875rem", color: "var(--ink-muted)" }}>
+                      &nbsp;|&nbsp;{" "}
+                      <a
+                        href="/certificates/thrivesup-certificate.jpg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "var(--ink)", textDecoration: "underline", fontWeight: 600 }}
+                      >
+                        Certificate ↗
+                      </a>
                       &nbsp;|&nbsp;{" "}
                       <a
                         href="https://github.com/uv3704/ThrivesUpJavaProject"

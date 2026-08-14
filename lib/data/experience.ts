@@ -1,23 +1,25 @@
 export interface TimelineItem {
-  period:       string
-  role:         string
-  org?:         string
-  location?:    string
-  type:         "work" | "education" | "freelance" | "personal"
-  description:  string
-  highlights:   string[]
-  skills?:      string[]
-  github?:      string
+  period:          string
+  role:            string
+  org?:            string
+  location?:       string
+  type:            "work" | "education" | "freelance" | "personal"
+  description:     string
+  highlights:      string[]
+  skills?:         string[]
+  github?:         string
+  certificateUrl?: string
 }
 
 export const experience: TimelineItem[] = [
   {
-    period:      "Jul 2025 — Sep 2025",
-    role:        "Java Developer Intern",
-    org:         "ThrivesUp Consultancy Services Pvt Ltd",
-    location:    "Indore, MP (On-site)",
-    type:        "work",
-    github:      "https://github.com/uv3704/ThrivesUpJavaProject",
+    period:         "Jul 2025 — Sep 2025",
+    role:           "Java Developer Intern",
+    org:            "ThrivesUp Consultancy Services Pvt Ltd",
+    location:       "Indore, MP (On-site)",
+    type:           "work",
+    github:         "https://github.com/uv3704/ThrivesUpJavaProject",
+    certificateUrl: "/certificates/thrivesup-certificate.jpg",
     description:
       "Engineered core backend systems, Spring architectures, and RESTful API endpoints for Academic Record Management.",
     highlights: [
@@ -28,11 +30,12 @@ export const experience: TimelineItem[] = [
     skills: ["Java", "Hibernate", "Spring patterns", "JDBC", "MySQL", "REST APIs"],
   },
   {
-    period:      "Jun 2025 — Jul 2025",
-    role:        "Full-Stack Intern",
-    org:         "Cognifyz Technologies",
-    location:    "Remote",
-    type:        "work",
+    period:         "Jun 2025 — Jul 2025",
+    role:           "Full-Stack Intern",
+    org:            "Cognifyz Technologies",
+    location:       "Remote",
+    type:           "work",
+    certificateUrl: "/certificates/cognifyz-certificate.jpg",
     description:
       "Built full-stack web applications and interactive components using MERN stack (MongoDB, Express, React, Node.js).",
     highlights: [
@@ -43,11 +46,12 @@ export const experience: TimelineItem[] = [
     skills: ["MongoDB", "Express.js", "React.js", "Node.js", "MERN Stack", "REST APIs"],
   },
   {
-    period:      "Apr 2025 — Jun 2025",
-    role:        "Frontend / Web Development Intern",
-    org:         "CODTECH IT SOLUTIONS",
-    location:    "Remote",
-    type:        "work",
+    period:         "Apr 2025 — Jun 2025",
+    role:           "Frontend / Web Development Intern",
+    org:            "CODTECH IT SOLUTIONS",
+    location:       "Remote",
+    type:           "work",
+    certificateUrl: "/certificates/codtech-certificate.jpg",
     description:
       "Architected modern responsive user interfaces using Next.js, React.js, TypeScript, and Tailwind CSS.",
     highlights: [
@@ -58,27 +62,29 @@ export const experience: TimelineItem[] = [
     skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Frontend Architecture"],
   },
   {
-    period:      "Feb 2025 — Mar 2025",
-    role:        "Full-Stack & Cloud Development Intern",
-    org:         "Edunet Foundation",
-    location:    "Remote",
-    type:        "work",
+    period:         "Dec 2024 — Jan 2025",
+    role:           "Full-Stack & Cloud Development Intern",
+    org:            "Edunet Foundation (EY & AICTE)",
+    location:       "Remote",
+    type:           "work",
+    certificateUrl: "/certificates/edunet-certificate.jpg",
     description:
-      "Developed scalable web applications and cloud-ready architectures with modern JavaScript ecosystem and TypeScript.",
+      "Developed scalable web applications and cloud-ready architectures with modern JavaScript ecosystem and MERN stack.",
     highlights: [
       "Engineered end-to-end full-stack web platforms using TypeScript, React.js, and Node.js microservices",
-      "Built accessible UI components and integrated cloud deployment workflows with Docker containers",
+      "Built accessible UI components and integrated cloud deployment workflows under the Next Gen Employability Program",
       "Collaborated in agile development sprints across multiple technical feature deliverables",
     ],
-    skills: ["TypeScript", "React.js", "Node.js", "Web Development", "Cloud Deployments"],
+    skills: ["TypeScript", "React.js", "Node.js", "MERN Stack", "EY Collaboration"],
   },
   {
-    period:      "Oct 2024 — Jan 2025",
-    role:        "AI / ML Intern",
-    org:         "Infosys SpringBoard",
-    location:    "Remote",
-    type:        "work",
-    github:      "https://github.com/uv3704/Classifcation_Infosys_Internship_Oct2024",
+    period:         "Oct 2024 — Jan 2025",
+    role:           "AI / ML Intern",
+    org:            "Infosys SpringBoard",
+    location:       "Remote",
+    type:           "work",
+    github:         "https://github.com/uv3704/Classifcation_Infosys_Internship_Oct2024",
+    certificateUrl: "/certificates/infosys-certificate.jpg",
     description:
       "Researched and trained deep learning computer vision architectures with model quantization and optimization.",
     highlights: [

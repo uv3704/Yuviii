@@ -150,7 +150,7 @@ export function CommandPalette() {
       subtitle: "Java Spring Boot, Hibernate, MySQL Enterprise",
       category: "Projects",
       icon: Layers,
-      action: () => { router.push("/projects/academicrecords"); setIsOpen(false) },
+      action: () => { router.push("/projects/academic-records"); setIsOpen(false) },
       keywords: ["java", "spring", "hibernate", "mysql", "backend", "enterprise"],
     },
     {

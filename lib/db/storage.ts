@@ -45,6 +45,7 @@ let inMemoryReactions: ReactionStats = {
   freelancer: 36,
   codestorm: 42,
   visionx: 29,
+  "academic-records": 31,
   academicrecords: 31,
   devpulse: 27,
   docuforge: 24,

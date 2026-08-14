@@ -81,7 +81,7 @@ export async function ensureTablesExist() {
         ('freelancer', 36),
         ('codestorm', 42),
         ('visionx', 29),
-        ('academicrecords', 31),
+        ('academic-records', 31),
         ('devpulse', 27),
         ('docuforge', 24)
         ON CONFLICT (slug) DO NOTHING;

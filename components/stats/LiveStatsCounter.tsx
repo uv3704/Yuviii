@@ -9,7 +9,6 @@ export function LiveStatsCounter() {
     easySolved: 88,
     mediumSolved: 206,
     hardSolved: 49,
-    ranking: "Rank #400,817",
     repos: 44,
     loading: false,
   })
@@ -26,7 +25,6 @@ export function LiveStatsCounter() {
               easySolved: data.leetcode.easySolved,
               mediumSolved: data.leetcode.mediumSolved,
               hardSolved: data.leetcode.hardSolved,
-              ranking: data.leetcode.ranking ? `Rank #${data.leetcode.ranking.toLocaleString()}` : "Top Tier",
               repos: data.github.publicRepos || 44,
               loading: false,
             })
@@ -96,7 +94,7 @@ export function LiveStatsCounter() {
             {stats.totalSolved}
           </span>
           <span style={{ fontSize: "0.6875rem", color: "var(--olive)", fontWeight: 600 }}>
-            {stats.ranking}
+            Verified LeetCode
           </span>
         </div>
 

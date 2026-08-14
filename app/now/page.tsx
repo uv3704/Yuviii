@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Reveal } from "@/components/reveal"
 import { InteractiveNowWorkbench } from "@/components/now/InteractiveNowWorkbench"
+import { LiveStatsCounter } from "@/components/stats/LiveStatsCounter"
 import { meta } from "@/lib/data/meta"
 
 export const metadata = {
@@ -45,10 +46,19 @@ export default function NowPage() {
         </section>
 
         {/* ── INTERACTIVE WORKBENCH CONSOLE ──────────────────────────── */}
-        <section style={{ paddingBottom: "clamp(3rem, 6vw, 5rem)" }}>
+        <section style={{ paddingBottom: "clamp(2.5rem, 5vw, 3.5rem)" }}>
           <div className="container-editorial">
             <Reveal delay={2}>
               <InteractiveNowWorkbench />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── LIVE LEETCODE & GITHUB STATS WIDGET ────────────────────── */}
+        <section style={{ paddingBottom: "clamp(3rem, 6vw, 4.5rem)" }}>
+          <div className="container-editorial">
+            <Reveal delay={3}>
+              <LiveStatsCounter />
             </Reveal>
           </div>
         </section>

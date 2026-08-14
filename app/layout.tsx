@@ -40,6 +40,8 @@ export const metadata: Metadata = {
   },
 }
 
+import { CommandPalette } from "@/components/command/CommandPalette"
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -56,6 +58,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <CommandPalette />
         <Analytics />
       </body>
     </html>
